@@ -10,9 +10,5 @@ class Sieve
       i = num
       prime_nums.delete(i += num) until i > @upper_limit
     end
-
-    prime_nums
   end
 end
-
-Sieve.new(10).primes
