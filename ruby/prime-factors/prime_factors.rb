@@ -1,14 +1,6 @@
 class PrimeFactors
-  #require 'prime'
-  
-  # def self.for(number)
-  #   Prime.prime_division(number).each_with_object([]) do |e, a|
-  #     e[1].times { a << e[0] }
-  #   end
-  # end
-
   def self.for(number)
-    Prime.primes.each_with_object([]) do |prime, a|
+    primes.each_with_object([]) do |prime, a|
       return a if prime > number
       number1, mod = number.divmod(prime)
       next unless mod == 0
@@ -17,9 +9,9 @@ class PrimeFactors
       redo
     end
   end
-end
 
-class Prime
+  private
+
   def self.primes
     Enumerator.new do |y|
       y << 2
@@ -31,11 +23,7 @@ class Prime
     end
   end
 
-  private
-
   def self.prime?(num)
-    2.upto(Math.sqrt(num)).each { |i| return false if num % i == 0 }
-    true
+    !(2.upto(Math.sqrt(num)).any? { |i| num % i == 0 })
   end
 end
-
