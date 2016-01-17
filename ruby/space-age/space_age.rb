@@ -16,7 +16,9 @@ class SpaceAge
   end
   
   def method_missing(method)
-    raise NoMethodError unless EARTH_YEARS.keys.include?(method)
-    on_earth / EARTH_YEARS[method]
+     on_planet = EARTH_YEARS.fetch(method) { raise NoMethodError }
+     on_earth / on_planet
   end
 end
+
+puts SpaceAge.new('florp').on_pluto
