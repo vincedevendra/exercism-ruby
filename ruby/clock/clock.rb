@@ -16,21 +16,11 @@ class Clock
   end
 
   def +(minutes)
-    hours_to_add, minutes_to_add = minutes.divmod(60)
-    @minute += minutes_to_add
-    @hour += hours_to_add
-    correct_hours_over_24
-    correct_minutes_over_60
-    self
+    update_clock(:+, minutes)
   end
 
   def -(minutes)
-    hours_to_subtract, minutes_to_subtract = minutes.divmod(60)
-    @minute -= minutes_to_subtract
-    @hour -= hours_to_subtract
-    correct_negative_minutes
-    correct_negative_hours
-    self
+    update_clock(:-, minutes)
   end
 
   def ==(other)
@@ -38,6 +28,17 @@ class Clock
   end
 
   private
+
+  def update_clock(operation, minutes)
+    hrs, mins = (@minute += minutes).divmod(60)
+    hrs += 1 if @minute == 0 && operation == :-
+    require 'pry'; binding.pry
+    @minute = mins
+    @hour = @hour.send(operation, hrs)
+    correct_hours_over_24
+    correct_negative_hours
+    self
+  end
 
   def correct_negative_minutes
     return if minute >= 0
@@ -55,9 +56,9 @@ class Clock
     @hour -= 24
   end
 
-  def correct_minutes_over_60
-    return if minute < 60
-    @hour += 1
-    @minute -= 60
-  end
+#   def correct_minutes_over_60
+#     return if minute < 60
+#     @hour += 1
+    # @minute -= 60
+  # end
 end
