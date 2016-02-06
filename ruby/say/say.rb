@@ -12,8 +12,7 @@ class Say
 
   def in_english
     return DIGITS[@number] if @number <= 13 
-    return up_to_999(@number) if @number < 1000
-    above_999(@number)
+    @number < 1000 ? up_to_999(@number) : above_999(@number)
   end
 
   private
